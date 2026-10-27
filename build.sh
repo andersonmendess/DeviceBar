@@ -1,13 +1,20 @@
 #!/bin/sh
-# Compila o DeviceBar.app. Use `./build.sh install` para copiar para ~/Applications.
+# Compila o DeviceBar.app. Use `./build.sh install` para copiar para ~/Applications
+# ou `./build.sh release` para gerar o zip da release em build/.
 set -e
 cd "$(dirname "$0")"
 
+VERSION=1.0.0
 APP=build/DeviceBar.app
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
-swiftc -O -swift-version 5 -target arm64-apple-macos13.0 main.swift -o "$APP/Contents/MacOS/DeviceBar"
+# Binário universal: Apple Silicon e Intel.
+for arch in arm64 x86_64; do
+  swiftc -O -swift-version 5 -target $arch-apple-macos13.0 main.swift -o build/DeviceBar-$arch
+done
+lipo -create build/DeviceBar-arm64 build/DeviceBar-x86_64 -output "$APP/Contents/MacOS/DeviceBar"
+rm build/DeviceBar-arm64 build/DeviceBar-x86_64
 
 # Ícone: o DeviceBar.icon (formato do Icon Composer) vira Assets.car, com Liquid Glass
 # no macOS 26, e DeviceBar.icns, usado pelas versões anteriores.
@@ -28,7 +35,7 @@ cat > "$APP/Contents/Info.plist" <<EOF
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleIconFile</key><string>DeviceBar</string>
   <key>CFBundleIconName</key><string>DeviceBar</string>
-  <key>CFBundleShortVersionString</key><string>1.0</string>
+  <key>CFBundleShortVersionString</key><string>$VERSION</string>
   <key>CFBundleVersion</key><string>1</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>LSUIElement</key><true/>
@@ -44,4 +51,11 @@ if [ "$1" = "install" ]; then
   rm -rf ~/Applications/DeviceBar.app
   cp -R "$APP" ~/Applications/
   echo "Instalado em ~/Applications/DeviceBar.app"
+fi
+
+if [ "$1" = "release" ]; then
+  ZIP=build/DeviceBar-$VERSION.zip
+  rm -f "$ZIP"
+  ditto -c -k --keepParent "$APP" "$ZIP"
+  echo "Release: $ZIP"
 fi

@@ -24,9 +24,21 @@ Ligar um emulador não deveria exigir abrir o Android Studio ou o Xcode inteiros
 - **✓ no que está rodando**, com opções para mostrar ou parar.
 - **Leve**: um único arquivo Swift, sem dependências e com 0% de CPU enquanto o menu está fechado.
 
-## Instalação
+## Download
 
-Requer macOS 13+ em Apple Silicon e Xcode 26+. Para os emuladores Android, também é preciso o Android SDK.
+Baixe o `DeviceBar-x.y.z.zip` da [última release](https://github.com/andersonmendess/DeviceBar/releases/latest), descompacte e arraste o `DeviceBar.app` para a pasta Aplicativos.
+
+O app não é notarizado pela Apple, então na primeira vez o macOS vai bloquear a abertura. Para liberar, vá em **Ajustes do Sistema → Privacidade e Segurança** e clique em **Abrir Mesmo Assim**. Outra opção é rodar:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/DeviceBar.app
+```
+
+Requer macOS 13 ou superior (Apple Silicon ou Intel). Para os simuladores iOS é preciso ter o Xcode instalado; para os emuladores Android, o Android SDK.
+
+## Compilando
+
+Requer o Xcode 26 ou superior.
 
 ```sh
 git clone https://github.com/andersonmendess/DeviceBar.git
