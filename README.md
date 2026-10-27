@@ -26,7 +26,7 @@ Ligar um emulador não deveria exigir abrir o Android Studio ou o Xcode inteiros
 
 ## Download
 
-Baixe o `DeviceBar-x.y.z.zip` da [última release](https://github.com/andersonmendess/DeviceBar/releases/latest), descompacte e arraste o `DeviceBar.app` para a pasta Aplicativos.
+Baixe o `DeviceBar-x.y.z.dmg` da [última release](https://github.com/andersonmendess/DeviceBar/releases/latest), abra e arraste o `DeviceBar.app` para a pasta Aplicativos. Também há um `.zip` com o mesmo app.
 
 O app não é notarizado pela Apple, então na primeira vez o macOS vai bloquear a abertura. Para liberar, vá em **Ajustes do Sistema → Privacidade e Segurança** e clique em **Abrir Mesmo Assim**. Outra opção é rodar:
 

@@ -58,4 +58,15 @@ if [ "$1" = "release" ]; then
   rm -f "$ZIP"
   ditto -c -k --keepParent "$APP" "$ZIP"
   echo "Release: $ZIP"
+
+  # DMG com o app e um atalho para Aplicativos, para instalar arrastando.
+  DMG=build/DeviceBar-$VERSION.dmg
+  STAGE=build/dmg
+  rm -rf "$STAGE" "$DMG"
+  mkdir -p "$STAGE"
+  cp -R "$APP" "$STAGE/"
+  ln -s /Applications "$STAGE/Applications"
+  hdiutil create -volname DeviceBar -srcfolder "$STAGE" -format UDZO -ov "$DMG" >/dev/null
+  rm -rf "$STAGE"
+  echo "Release: $DMG"
 fi
